@@ -5,6 +5,7 @@ package es.ceu.gisi.modcomp.webcrawler;
  * proyecto de programación.
  *
  * @author Sergio Saugar García <sergio.saugargarcia@ceu.es>
+ * @author Jorge Sobrino Solís
  */
 public class WebCrawler {
 
@@ -18,5 +19,7 @@ public class WebCrawler {
         // web a analizar. Creará un fichero con todos los hiperenlaces que
         // encuentre en la página web. También obtendrá estadísticas de uso 
         // de las etiquetas HTML más comunes: a, br, div, li, ul, p, span, table, td, tr
+        
+       
     }
 }
