@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import es.ceu.gisi.modcomp.webcrawler.jflex.lexico.Token;
+import java.io.IOException;
 import java.util.Stack;
 
 /**
@@ -19,42 +20,95 @@ import java.util.Stack;
 public abstract class JFlexScraper {
 
     private HTMLParser analizador;
-    boolean auxApertura = true;
+    boolean auxAperturaValida = true;
     boolean auxCierre = true;
     Stack pila = new Stack();
     
 
-    public JFlexScraper(File fichero) throws FileNotFoundException {
+    public JFlexScraper(File fichero) throws Exception {
         
+       try{
         Reader reader = new BufferedReader(new FileReader(fichero));
         analizador = new HTMLParser(reader);
+       }catch(IOException e){
+           System.out.println("Error...");
+       }
         int estado = 0; //Establecemos el estado inicial del autómata
         Token token = analizador.yylex();
+      
         
         while(token != null){
             switch(estado){
                 case 0:
                     if(token.getTipo() == Tipo.OPEN){//Se pasa al estado 1 cuando se devuelve un OPEN 
                         estado = 1;
-                        token = analizador.yylex(); //Se pasa a analizar el siguiente token
-                    }else token = analizador.yylex();
+                    }
                 break;
                 
                 case 1://Se comprueba si el siguiente token es palabra o /, para saber si es una etiqueta de apertura o cierre.
                     if(token.getTipo() == Tipo.PALABRA){
-                        estado = 2;
+                        pila.add(token.getValor());
+                        
+                        if("a".equals(token.getValor())){
+                            estado = 2;
+                            
+                        }else if("img".equals(token.getValor())){
+                            estado = 3;
+                            
+                        }else estado = 4;
+                        
                     }else if(token.getTipo() == Tipo.SLASH){
-                        estado = 3;
+                        estado = 5;
+                        
                     }else{
                         estado = 0;
-                        auxApertura = false;
+                        auxAperturaValida = false;
                     }
                 break;
                 
                 case 2:
+                    //guardar link
+                    if("a".equals(token.getValor())) estado = 7;
+                    pila.add(token.getValor());
                     
-                                 
+                    auxCierre = false;
+                    auxCierre = false;
+                        while(token.getTipo()!= Tipo.OPEN){
+                            if(token.getTipo()== Tipo.CLOSE){
+                                auxCierre = true;
+                                break;
+                            }
+                           
+                        }
+                        estado = 0;
+                    estado = 4;
+                break;
+                    
+                case 3:
+                  //guardar imagen
+                    if("img".equals(token.getValor())) estado = 6;
+                    else{
+                        auxCierre = false;
+                        while(token.getTipo()!= Tipo.OPEN){
+                            if(token.getTipo()== Tipo.CLOSE){
+                                auxCierre = true;
+                                break;
+                            }
+                            
+                        }
+                    estado = 4;
+                break;
+                    
+                case 4:
+                if(token.getTipo() == Tipo.SLASH) estado = 5;
+                   
+                break;
+                    }
+                case 5:
+                    
+                break;
             }
+            token = analizador.yylex();
         }
     }
 
@@ -71,6 +125,6 @@ public abstract class JFlexScraper {
     }
 
     public boolean esDocumentoHTMLBienBalanceado() {
-        return aux;
+        return true;
     }
 }
