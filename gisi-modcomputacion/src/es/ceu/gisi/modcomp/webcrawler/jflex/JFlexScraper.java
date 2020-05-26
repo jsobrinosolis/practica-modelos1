@@ -23,6 +23,8 @@ public abstract class JFlexScraper {
     boolean auxAperturaValida = true;
     boolean auxCierre = true;
     Stack pila = new Stack();
+    ArrayList<String> arraySrc = new ArrayList<>();
+    ArrayList<String> arrayHref = new ArrayList<>();
     
 
     public JFlexScraper(File fichero) throws Exception {
@@ -68,44 +70,26 @@ public abstract class JFlexScraper {
                 
                 case 2:
                     //guardar link
-                    if("a".equals(token.getValor())) estado = 7;
-                    pila.add(token.getValor());
-                    
-                    auxCierre = false;
-                    auxCierre = false;
-                        while(token.getTipo()!= Tipo.OPEN){
-                            if(token.getTipo()== Tipo.CLOSE){
-                                auxCierre = true;
-                                break;
-                            }
-                           
-                        }
-                        estado = 0;
+                    arrayHref.add(token.getValor());
                     estado = 4;
                 break;
                     
                 case 3:
                   //guardar imagen
-                    if("img".equals(token.getValor())) estado = 6;
-                    else{
-                        auxCierre = false;
-                        while(token.getTipo()!= Tipo.OPEN){
-                            if(token.getTipo()== Tipo.CLOSE){
-                                auxCierre = true;
-                                break;
-                            }
-                            
-                        }
+                    arraySrc.add(token.getValor());
                     estado = 4;
                 break;
                     
                 case 4:
-                if(token.getTipo() == Tipo.SLASH) estado = 5;
+                    //otra cosa
+                    if(token.getTipo() == Tipo.SLASH) estado = 5;
                    
                 break;
                     }
                 case 5:
+                    //vaciado de pila
                     
+                    estado = 0;
                 break;
             }
             token = analizador.yylex();
