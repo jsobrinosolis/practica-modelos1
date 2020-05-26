@@ -70,8 +70,11 @@ public abstract class JFlexScraper {
                 
                 case 2:
                     //guardar link
-                    arrayHref.add(token.getValor());
-                    estado = 4;
+                    if("=".equals(token.getValor())){
+                        token = analizador.yylex();
+                        arrayHref.add(token.getValor());
+                        estado = 4;
+                    }
                 break;
                     
                 case 3:
@@ -81,14 +84,18 @@ public abstract class JFlexScraper {
                 break;
                     
                 case 4:
-                    //otra cosa
-                    if(token.getTipo() == Tipo.SLASH) estado = 5;
+                    if(token.getTipo() == Tipo.SLASH){
+                        estado = 5;
+                    }else estado = 4;
+                    
                    
                 break;
-                    }
+                
                 case 5:
-                    //vaciado de pila
-                    
+                    //vaciado de pila, if pila.peek() == token.getValor()
+                    if(pila.peek() == token.getValor()){
+                        pila.pop();
+                    }
                     estado = 0;
                 break;
             }
@@ -99,16 +106,14 @@ public abstract class JFlexScraper {
 //----------------------------------------------------------------
     
     public ArrayList<String> obtenerHiperenlaces() {
-        // Habrá que programarlo..
-        return new ArrayList<String>();
+        return arrayHref;
     }
 
     public ArrayList<String> obtenerHiperenlacesImagenes() {
-        // Habrá que programarlo..
-        return new ArrayList<String>();
+        return arraySrc;
     }
 
     public boolean esDocumentoHTMLBienBalanceado() {
-        return true;
+        return auxAperturaValida && pila.isEmpty();
     }
 }
