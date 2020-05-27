@@ -28,6 +28,7 @@ public class HTMLParserTest {
     private File ficheroPrueba1 = new File(PATH_PRUEBAS + "prueba1.html"); //Test fichero balanceado
     private File ficheroPrueba2 = new File(PATH_PRUEBAS + "prueba2.html");
     private File ficheroPrueba3 = new File(PATH_PRUEBAS + "prueba3.html");
+    private File ficheroPrueba4 = new File(PATH_PRUEBAS + "prueba4.html");
     private Reader reader1;
     private Reader reader2;
     HTMLParser analizador;
@@ -170,5 +171,17 @@ public class HTMLParserTest {
     public void TestObtenerImagenesFallo() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba1);
         assertTrue(a.obtenerHiperenlacesImagenes().isEmpty());
+    }
+    
+    @Test
+    public void TestObtenerVariosEnlaces() throws IOException{
+        JFlexScraper a = new JFlexScraper(ficheroPrueba4);
+        assertEquals(a.obtenerHiperenlaces().size(), 3);
+    }
+    
+    @Test
+    public void TestObtenerVariasImagenes() throws IOException{
+        JFlexScraper a = new JFlexScraper(ficheroPrueba4);
+        assertEquals(a.obtenerHiperenlacesImagenes().size(), 3);
     }
 }
