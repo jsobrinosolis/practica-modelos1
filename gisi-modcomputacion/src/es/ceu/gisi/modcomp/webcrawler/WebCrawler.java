@@ -2,6 +2,7 @@ package es.ceu.gisi.modcomp.webcrawler;
 
 import es.ceu.gisi.modcomp.webcrawler.jflex.JFlexScraper;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -24,6 +25,18 @@ public class WebCrawler {
         
         JFlexScraper af = new JFlexScraper(fichero);
 
+        FileWriter writer = new FileWriter("ficheroURLImagenes.txt");
+        for(String s : af.obtenerHiperenlacesImagenes()){
+            writer.write(s);
+        }
+        writer.close();
+        
+        FileWriter writer1 = new FileWriter("ficheroURLWeb.txt");
+        for(String s : af.obtenerHiperenlaces()){
+            writer1.write(s);
+        }
+        writer1.close();
+        
         
         // Deberá inicializar JsoupScraper con la DIRECCIÓN HTTP de una página
         // web a analizar. Creará un fichero con todos los hiperenlaces que
