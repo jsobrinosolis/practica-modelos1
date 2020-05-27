@@ -17,7 +17,7 @@ import java.util.Stack;
  * @author Sergio Saugar García <sergio.saugargarcia@ceu.es>
  * @author Jorge Sobrino Solís
  */
-public abstract class JFlexScraper {
+public class JFlexScraper {
 
     private HTMLParser analizador;
     boolean auxAperturaValida = true;
@@ -27,7 +27,7 @@ public abstract class JFlexScraper {
     ArrayList<String> arrayHref = new ArrayList<>();
     
 
-    public JFlexScraper(File fichero) throws Exception {
+    public JFlexScraper(File fichero) throws IOException {
         
        try{
         Reader reader = new BufferedReader(new FileReader(fichero));
@@ -62,25 +62,38 @@ public abstract class JFlexScraper {
                     }else if(token.getTipo() == Tipo.SLASH){
                         estado = 5;
                         
-                    }else{
+                    }/*else{
                         estado = 0;
                         auxAperturaValida = false;
-                    }
+                    }*/
                 break;
                 
                 case 2:
                     //guardar link
-                    if("=".equals(token.getValor())){
+                    if("href".equals(token.getValor())){
                         token = analizador.yylex();
-                        arrayHref.add(token.getValor());
-                        estado = 4;
+                        if(token.getTipo() == Tipo.IGUAL){
+                            token = analizador.yylex();
+                            if(token.getTipo() == Tipo.VALOR){
+                                 arrayHref.add(token.getValor());
+                                 estado = 4;
+                            }
+                        }
                     }
                 break;
                     
                 case 3:
                   //guardar imagen
-                    arraySrc.add(token.getValor());
-                    estado = 4;
+                    if("src".equals(token.getValor())){
+                        token = analizador.yylex();
+                        if(token.getTipo() == Tipo.IGUAL){
+                            token = analizador.yylex();
+                            if(token.getTipo() == Tipo.VALOR){
+                                 arraySrc.add(token.getValor());
+                                 estado = 4;
+                            }
+                        }
+                    }
                 break;
                     
                 case 4:
@@ -88,7 +101,6 @@ public abstract class JFlexScraper {
                         estado = 5;
                     }else estado = 4;
                     
-                   
                 break;
                 
                 case 5:

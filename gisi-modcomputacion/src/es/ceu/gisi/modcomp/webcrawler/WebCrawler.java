@@ -25,18 +25,23 @@ public class WebCrawler {
         
         JFlexScraper af = new JFlexScraper(fichero);
 
-        FileWriter writer = new FileWriter("ficheroURLImagenes.txt");
+        FileWriter writer;
+        writer = new FileWriter("ficheroURLImagenes.txt");
         for(String s : af.obtenerHiperenlacesImagenes()){
             writer.write(s);
         }
         writer.close();
         
-        FileWriter writer1 = new FileWriter("ficheroURLWeb.txt");
+        FileWriter writer1;
+        writer1 = new FileWriter("ficheroURLWeb.txt");
         for(String s : af.obtenerHiperenlaces()){
             writer1.write(s);
         }
         writer1.close();
         
+        if(af.esDocumentoHTMLBienBalanceado() == true) System.out.println("El documento HTML está bien balanceado");
+        
+        else System.out.println("El documento HTML está mal balanceado");
         
         // Deberá inicializar JsoupScraper con la DIRECCIÓN HTTP de una página
         // web a analizar. Creará un fichero con todos los hiperenlaces que
