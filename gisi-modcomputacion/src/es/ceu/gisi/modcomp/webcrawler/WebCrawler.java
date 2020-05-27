@@ -15,7 +15,7 @@ import java.io.IOException;
 public class WebCrawler {
     
     private static String path = new java.io.File("").getAbsolutePath() + "/test/es/ceu/gisi/modcomp/webcrawler/jflex/test/";
-    private static File fichero = new File(path + "prueba1.html");
+    private static File fichero = new File(path + "prueba2.html");
     
     public static void main(String[] args) throws IOException {
         // Deberá inicializar JFlexScraper con el fichero HTML a analizar

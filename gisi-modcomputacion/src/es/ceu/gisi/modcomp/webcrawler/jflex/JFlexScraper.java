@@ -108,7 +108,7 @@ public class JFlexScraper {
                         if(token.getValor() == pila.peek()){
                             pila.pop();
                             estado = 4;
-                        }else balanceado = true;
+                        }else balanceado = false;
                     }
                 break;
             }
@@ -127,6 +127,6 @@ public class JFlexScraper {
     }
 
     public boolean esDocumentoHTMLBienBalanceado() {
-        return auxAperturaValida && pila.isEmpty();
+        return balanceado && pila.isEmpty();
     }
 }
