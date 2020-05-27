@@ -1,6 +1,7 @@
 package es.ceu.gisi.modcomp.webcrawler.jflex.test;
 
 import es.ceu.gisi.modcomp.webcrawler.jflex.HTMLParser;
+import es.ceu.gisi.modcomp.webcrawler.jflex.JFlexScraper;
 import es.ceu.gisi.modcomp.webcrawler.jflex.lexico.Tipo;
 import es.ceu.gisi.modcomp.webcrawler.jflex.lexico.Token;
 import java.io.BufferedReader;
@@ -24,8 +25,9 @@ public class HTMLParserTest {
     private final static String PATH_PRUEBAS = new java.io.File("").getAbsolutePath()
                                                + "/test/es/ceu/gisi/modcomp/webcrawler/jflex/test/";
 
-    private File ficheroPrueba1 = new File(PATH_PRUEBAS + "prueba1.html");
+    private File ficheroPrueba1 = new File(PATH_PRUEBAS + "prueba1.html"); //Test fichero balanceado
     private File ficheroPrueba2 = new File(PATH_PRUEBAS + "prueba2.html");
+    private File ficheroPrueba3 = new File(PATH_PRUEBAS + "prueba3.html");
     private Reader reader1;
     private Reader reader2;
     HTMLParser analizador;
@@ -129,5 +131,44 @@ public class HTMLParserTest {
             Logger.getLogger(HTMLParserTest.class.getName()).log(Level.SEVERE, null, ex);
             assertTrue(false);
         }
+    }
+    
+    
+    @Test
+    public void TestBalanceadoCorrecto() throws IOException{
+        JFlexScraper a = new JFlexScraper(ficheroPrueba1);
+        assertTrue(a.esDocumentoHTMLBienBalanceado());
+    }
+    
+    @Test
+    public void TestBalanceadoFallo() throws IOException{
+        JFlexScraper a = new JFlexScraper(ficheroPrueba3);
+        assertFalse(a.esDocumentoHTMLBienBalanceado());
+    }
+    
+    @Test
+    public void TestObtenerEnlaces() throws IOException{
+        JFlexScraper a = new JFlexScraper(ficheroPrueba2);
+        assertFalse(!a.obtenerHiperenlaces().isEmpty());
+        assertEquals(a.obtenerHiperenlaces().size(), 1);
+    }
+    
+    @Test
+    public void TestObtenerImagenes() throws IOException{
+        JFlexScraper a = new JFlexScraper(ficheroPrueba2);
+        assertFalse(!a.obtenerHiperenlaces().isEmpty());
+        assertEquals(a.obtenerHiperenlacesImagenes().size(), 1);
+    }
+    
+    @Test
+    public void TestObtenerEnlacesFallo() throws IOException{
+        JFlexScraper a = new JFlexScraper(ficheroPrueba1);
+        assertTrue(a.obtenerHiperenlaces().isEmpty());
+    }
+    
+    @Test
+    public void TestObtenerImagenesFallo() throws IOException{
+        JFlexScraper a = new JFlexScraper(ficheroPrueba1);
+        assertTrue(a.obtenerHiperenlacesImagenes().isEmpty());
     }
 }
