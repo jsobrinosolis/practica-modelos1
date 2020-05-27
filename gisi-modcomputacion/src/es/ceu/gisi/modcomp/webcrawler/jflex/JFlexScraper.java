@@ -20,7 +20,7 @@ import java.util.Stack;
 public class JFlexScraper {
 
     private HTMLParser analizador;
-    boolean auxAperturaValida = true;
+    boolean balanceado = true;
     boolean auxCierre = true;
     Stack pila = new Stack();
     ArrayList<String> arraySrc = new ArrayList<>();
@@ -42,12 +42,10 @@ public class JFlexScraper {
         while(token != null){
             switch(estado){
                 case 0:
-                    if(token.getTipo() == Tipo.OPEN){//Se pasa al estado 1 cuando se devuelve un OPEN 
-                        estado = 1;
-                    }
+                    if(token.getTipo() == Tipo.OPEN) estado = 1;
                 break;
                 
-                case 1://Se comprueba si el siguiente token es palabra o /, para saber si es una etiqueta de apertura o cierre.
+                case 1:
                     if(token.getTipo() == Tipo.PALABRA){
                         pila.add(token.getValor());
                         
@@ -98,17 +96,20 @@ public class JFlexScraper {
                     
                 case 4:
                     if(token.getTipo() == Tipo.SLASH){
-                        estado = 5;
-                    }else estado = 4;
+                        pila.pop();
+                        estado = 4;
+                    }else if(token.getTipo() == Tipo.CLOSE) estado = 0;
                     
                 break;
                 
                 case 5:
                     //vaciado de pila, if pila.peek() == token.getValor()
-                    if(pila.peek() == token.getValor()){
-                        pila.pop();
+                    if(token.getTipo() == Tipo.PALABRA){
+                        if(token.getValor() == pila.peek()){
+                            pila.pop();
+                            estado = 4;
+                        }else balanceado = true;
                     }
-                    estado = 0;
                 break;
             }
             token = analizador.yylex();
