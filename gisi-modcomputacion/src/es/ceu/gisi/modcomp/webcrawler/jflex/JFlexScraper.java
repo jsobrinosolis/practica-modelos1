@@ -1,6 +1,7 @@
 package es.ceu.gisi.modcomp.webcrawler.jflex;
 
 import es.ceu.gisi.modcomp.webcrawler.jflex.lexico.Tipo;
+import static es.ceu.gisi.modcomp.webcrawler.jflex.lexico.Tipo.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +21,7 @@ import java.util.Stack;
 public class JFlexScraper {
 
     private HTMLParser analizador;
-    boolean balanceado = true;
+    boolean malBalanceado = true;
     boolean auxCierre = true;
     Stack pila = new Stack();
     ArrayList<String> arraySrc = new ArrayList<>();
@@ -33,10 +34,11 @@ public class JFlexScraper {
         Reader reader = new BufferedReader(new FileReader(fichero));
         analizador = new HTMLParser(reader);
        }catch(IOException e){
-           System.out.println("Error...");
+           System.out.println("Error en inicialización.");
        }
         int estado = 0; //Establecemos el estado inicial del autómata
         Token token = analizador.yylex();
+        String aux = "";
       
         
         while(token != null){
@@ -46,21 +48,21 @@ public class JFlexScraper {
                 break;
                 
                 case 1:
-                    if(token.getTipo() == Tipo.PALABRA){
-                        pila.add(token.getValor());
+                    if(token.getTipo() == PALABRA){
+                        aux = token.getValor();
+                        pila.add(aux);
                         
-                        if("a".equals(token.getValor())){
+                        if(token.getValor().equalsIgnoreCase("A")){
                             estado = 2;
                             
-                        }else if("img".equals(token.getValor())){
+                        }else if(token.getValor().equalsIgnoreCase("IMG")){
                             estado = 3;
                             
                         }else estado = 4;
                         
-                    }else if(token.getTipo() == Tipo.SLASH){
-                        estado = 5;
-                        
-                    }/*else{
+                    }else if(token.getTipo() == SLASH) estado = 5;
+                    
+                    /*else{
                         estado = 0;
                         auxAperturaValida = false;
                     }*/
@@ -70,9 +72,9 @@ public class JFlexScraper {
                     //guardar link
                     if("href".equals(token.getValor())){
                         token = analizador.yylex();
-                        if(token.getTipo() == Tipo.IGUAL){
+                        if(token.getTipo() == IGUAL){
                             token = analizador.yylex();
-                            if(token.getTipo() == Tipo.VALOR){
+                            if(token.getTipo() == VALOR){
                                  arrayHref.add(token.getValor());
                                  estado = 4;
                             }
@@ -84,9 +86,9 @@ public class JFlexScraper {
                   //guardar imagen
                     if("src".equals(token.getValor())){
                         token = analizador.yylex();
-                        if(token.getTipo() == Tipo.IGUAL){
+                        if(token.getTipo() == IGUAL){
                             token = analizador.yylex();
-                            if(token.getTipo() == Tipo.VALOR){
+                            if(token.getTipo() == VALOR){
                                  arraySrc.add(token.getValor());
                                  estado = 4;
                             }
@@ -95,20 +97,24 @@ public class JFlexScraper {
                 break;
                     
                 case 4:
-                    if(token.getTipo() == Tipo.SLASH){
+                    if(token.getTipo() == SLASH){
                         pila.pop();
                         estado = 4;
-                    }else if(token.getTipo() == Tipo.CLOSE) estado = 0;
+                    }else if(token.getTipo() == CLOSE){
+                        aux = "";
+                        estado = 0;
+                    } 
                     
                 break;
                 
                 case 5:
                     //vaciado de pila, if pila.peek() == token.getValor()
-                    if(token.getTipo() == Tipo.PALABRA){
-                        if(token.getValor() == pila.peek()){
+                    if(token.getTipo() == PALABRA){
+                        aux = token.getValor();
+                        if(aux.equals(pila.peek())){
                             pila.pop();
                             estado = 4;
-                        }else balanceado = false;
+                        }else malBalanceado = true;
                     }
                 break;
             }
@@ -127,6 +133,6 @@ public class JFlexScraper {
     }
 
     public boolean esDocumentoHTMLBienBalanceado() {
-        return balanceado && pila.isEmpty();
+        return !this.malBalanceado && pila.isEmpty();
     }
 }
