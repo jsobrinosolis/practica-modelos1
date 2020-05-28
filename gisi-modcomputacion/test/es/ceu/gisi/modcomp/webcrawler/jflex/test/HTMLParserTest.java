@@ -158,7 +158,7 @@ public class HTMLParserTest {
     @Test
     public void TestObtenerEnlaces() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba2);
-        assertFalse(!a.obtenerHiperenlaces().isEmpty());
+        assertFalse(a.obtenerHiperenlaces().isEmpty());
         assertEquals(a.obtenerHiperenlaces().size(), 1);
     }
     
@@ -168,7 +168,7 @@ public class HTMLParserTest {
     @Test
     public void TestObtenerImagenes() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba2);
-        assertFalse(!a.obtenerHiperenlaces().isEmpty());
+        assertFalse(a.obtenerHiperenlaces().isEmpty());
         assertEquals(a.obtenerHiperenlacesImagenes().size(), 1);
     }
     

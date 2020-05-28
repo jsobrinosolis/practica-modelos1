@@ -21,8 +21,7 @@ import java.util.Stack;
 public class JFlexScraper {
 
     private HTMLParser analizador;
-    boolean malBalanceado = true;
-    boolean auxCierre = true;
+    boolean malBalanceado;
     Stack pila = new Stack();
     ArrayList<String> arraySrc = new ArrayList<>();
     ArrayList<String> arrayHref = new ArrayList<>();
@@ -39,7 +38,7 @@ public class JFlexScraper {
         int estado = 0; //Establecemos el estado inicial del autómata
         Token token = analizador.yylex();
         String aux = "";
-      
+        this.malBalanceado = true;
         
         while(token != null){
             switch(estado){
@@ -144,6 +143,6 @@ public class JFlexScraper {
      * @return boolean, true si el documento html está bien balanceado.
      */
     public boolean esDocumentoHTMLBienBalanceado() {
-        return !this.malBalanceado && pila.isEmpty();
+        return this.malBalanceado && pila.isEmpty();
     }
 }
