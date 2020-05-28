@@ -35,7 +35,7 @@ public class JFlexScraper {
        }catch(IOException e){
            System.out.println("Error en inicialización.");
        }
-        int estado = 0; //Establecemos el estado inicial del autómata
+        int estado = 0;
         Token token = analizador.yylex();
         String aux = "";
         this.balanceado = true;
@@ -61,10 +61,6 @@ public class JFlexScraper {
                         
                     }else if(token.getTipo() == SLASH) estado = 5;
                     
-                    /*else{
-                        estado = 0;
-                        auxAperturaValida = false;
-                    }*/
                 break;
                 
                 case 2:
@@ -107,7 +103,7 @@ public class JFlexScraper {
                 break;
                 
                 case 5:
-                    //vaciado de pila, if pila.peek() == token.getValor()
+                    
                     if(token.getTipo() == PALABRA){
                         aux = token.getValor();
                         if(aux.equals(pila.peek())){

@@ -25,7 +25,7 @@ public class HTMLParserTest {
     private final static String PATH_PRUEBAS = new java.io.File("").getAbsolutePath()
                                                + "/test/es/ceu/gisi/modcomp/webcrawler/jflex/test/";
 
-    private File ficheroPrueba1 = new File(PATH_PRUEBAS + "prueba1.html"); //Test fichero balanceado
+    private File ficheroPrueba1 = new File(PATH_PRUEBAS + "prueba1.html");
     private File ficheroPrueba2 = new File(PATH_PRUEBAS + "prueba2.html");
     private File ficheroPrueba3 = new File(PATH_PRUEBAS + "prueba3.html");
     private File ficheroPrueba4 = new File(PATH_PRUEBAS + "prueba4.html");
