@@ -62,8 +62,14 @@ public class JsoupScraper {
      * @return Una lista con todas las URLs de los hiperenlaces
      */
     public List<String> obtenerHiperenlaces() {
-        // Habrá que programarlo..
-        return new ArrayList<String>();
+        ArrayList<String> arrayHiperenlaces = new ArrayList<>();
+        Elements hiperenlacesLinks = doc.getElementsByTag("a");
+        
+        hiperenlacesLinks.forEach((e) -> {
+            arrayHiperenlaces.add(e.attr("href"));
+        });
+        
+        return arrayHiperenlaces;
     }
 
     /**
@@ -72,8 +78,14 @@ public class JsoupScraper {
      * @return Una lista con todas las URLs de los hiperenlaces
      */
     public List<String> obtenerHiperenlacesImagenes() {
-        // Habrá que programarlo..
-        return new ArrayList<String>();
+        ArrayList<String> arrayHiperenlacesImagenes = new ArrayList<>();
+        Elements imagenesLinks = doc.getElementsByTag("img");
+        
+        imagenesLinks.forEach((e) -> {
+            arrayHiperenlacesImagenes.add(e.attr("src"));
+        });
+        
+        return arrayHiperenlacesImagenes;
     }
 
 
