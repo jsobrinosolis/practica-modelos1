@@ -12,6 +12,7 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * Esta clase encapsula toda la lógica de interacción con el analizador Jsoup.
@@ -30,9 +31,7 @@ public class JsoupScraper {
      *            http://www.servidor.com/index.html)
      */
     public JsoupScraper(URL url) throws IOException {
-        // La variable deberá inicializarse de alguna manera utilizando una URL...
-        // De momento, se inicializa a null para que compile...
-        doc = null;
+        doc = Jsoup.connect(url.toString()).get();
     }
 
     /**
@@ -53,8 +52,8 @@ public class JsoupScraper {
      * @return El número de etiquetas de ese tipo que hay en el documento HTML
      */
     public int estadisticasEtiqueta(String etiqueta) {
-        // Habrá que programarlo..
-        return 0;
+        Elements e = doc.select(etiqueta);
+        return e.size();
     }
 
     /**
