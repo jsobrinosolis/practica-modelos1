@@ -18,6 +18,7 @@ import org.jsoup.select.Elements;
  * Esta clase encapsula toda la lógica de interacción con el analizador Jsoup.
  *
  * @author Sergio Saugar García <sergio.saugargarcia@ceu.es>
+ * @author Jorge Sobrino Solís
  */
 public class JsoupScraper {
 
