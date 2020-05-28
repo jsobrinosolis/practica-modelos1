@@ -1,1 +1,3 @@
 http://www.bbc.co.uk
+https://as.com
+https://www.marca.com

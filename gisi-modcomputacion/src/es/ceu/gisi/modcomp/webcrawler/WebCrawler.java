@@ -17,7 +17,7 @@ import java.net.URL;
 public class WebCrawler {
     
     private static String path = new java.io.File("").getAbsolutePath() + "/test/es/ceu/gisi/modcomp/webcrawler/jflex/test/";
-    private static File fichero = new File(path + "prueba2.html");
+    private static File fichero = new File(path + "prueba4.html");
     
     public static void main(String[] args) throws IOException {
         
@@ -26,14 +26,14 @@ public class WebCrawler {
         FileWriter writer;
         writer = new FileWriter("ficheroURLImagenes.txt");
         for(String s : af.obtenerHiperenlacesImagenes()){
-            writer.write(s);
+            writer.write(s + "\n");
         }
         writer.close();
         
         FileWriter writer1;
         writer1 = new FileWriter("ficheroURLWeb.txt");
         for(String st : af.obtenerHiperenlaces()){
-            writer1.write(st);
+            writer1.write(st + "\n");
         }
         writer1.close();
         
@@ -48,13 +48,13 @@ public class WebCrawler {
         
         FileWriter writer2 = new FileWriter("ficheroURLImagenesJsoup.txt");
         for(String enlaceImagen : jsoup.obtenerHiperenlacesImagenes()){
-            writer2.write(enlaceImagen);
+            writer2.write(enlaceImagen + "\n");
         }
         writer2.close();
         
         FileWriter writer3 = new FileWriter("ficheroURLJsoup.txt");
         for(String enlaceWeb : jsoup.obtenerHiperenlaces()){
-            writer3.write(enlaceWeb);
+            writer3.write(enlaceWeb + "\n");
         }
         writer3.close();
         
