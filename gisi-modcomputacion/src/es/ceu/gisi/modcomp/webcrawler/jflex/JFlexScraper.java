@@ -124,14 +124,25 @@ public class JFlexScraper {
 
 //----------------------------------------------------------------
     
+    /**
+     * @return El ArrayList con los hiperenlaces del documento html 
+     * que se han ido guardando en cada una de las iteraciones del autómata.
+     */
     public ArrayList<String> obtenerHiperenlaces() {
         return arrayHref;
     }
-
+    
+    /**
+     * @return El ArrayList con los hiperenlaces de las imágenes insertadas en el documento html 
+     * que se han ido guardando en cada una de las iteraciones del autómata.
+     */
     public ArrayList<String> obtenerHiperenlacesImagenes() {
         return arraySrc;
     }
-
+    
+    /**
+     * @return boolean, true si el documento html está bien balanceado.
+     */
     public boolean esDocumentoHTMLBienBalanceado() {
         return !this.malBalanceado && pila.isEmpty();
     }

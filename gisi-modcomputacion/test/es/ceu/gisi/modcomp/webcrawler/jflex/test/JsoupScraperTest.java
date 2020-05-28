@@ -32,16 +32,25 @@ public class JsoupScraperTest {
     
     private final JsoupScraper jsoup;
 
+    /**
+     * Constructor de la clase JsoupScraperTest.
+     * @throws IOException
+     */
     public JsoupScraperTest() throws IOException {
         this.jsoup = new JsoupScraper(prueba4);
     }
    
-    
+    /**
+     * El test comprueba que el analizador léxico recupera el valor de la primera imagen.
+     */
     @Test
     public void obtenerPrimeraImagen(){
         assertEquals(jsoup.obtenerContenidoImg(), "brushedsteel1234.jpg");
     }
     
+    /**
+     * El test comprueba que el analizador léxico recupera el valor los hiperenlaces.
+     */
     @Test
     public void obtenerHiperenlaces(){
         assertEquals(jsoup.obtenerHiperenlaces().get(0),"http://www.bbc.co.uk");
@@ -49,6 +58,9 @@ public class JsoupScraperTest {
         assertEquals(jsoup.obtenerHiperenlaces().get(2),"https://www.marca.com");
     }
     
+    /**
+     * El test verifica las estadísticas de etiquetas del documento html.
+     */
     @Test
     public void estadisticasEtiqueta(){
         assertEquals(jsoup.estadisticasEtiqueta("html"), 1);

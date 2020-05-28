@@ -134,19 +134,27 @@ public class HTMLParserTest {
         }
     }
     
-    
+    /**
+     * El test comprueba que el documento que toma el analizador léxico está bien balanceado.
+     */
     @Test
     public void TestBalanceadoCorrecto() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba1);
         assertTrue(a.esDocumentoHTMLBienBalanceado());
     }
     
+    /**
+     * El test comprueba que el documento que toma el analizador léxico está bien balanceado.
+     */
     @Test
     public void TestBalanceadoFallo() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba3);
         assertFalse(a.esDocumentoHTMLBienBalanceado());
     }
     
+    /**
+     * El test comprueba que el método obtenerHiperenlaces() recupera el valor del URL.
+     */
     @Test
     public void TestObtenerEnlaces() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba2);
@@ -154,6 +162,9 @@ public class HTMLParserTest {
         assertEquals(a.obtenerHiperenlaces().size(), 1);
     }
     
+    /**
+     * El test comprueba que el método obtenerHiperenlacesImagenes() recupera el valor de la imagen.
+     */
     @Test
     public void TestObtenerImagenes() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba2);
@@ -161,24 +172,36 @@ public class HTMLParserTest {
         assertEquals(a.obtenerHiperenlacesImagenes().size(), 1);
     }
     
+    /**
+     * El test comprueba que el método obtenerHiperenlaces() no recupera nada en un fichero sin URLs.
+     */
     @Test
     public void TestObtenerEnlacesFallo() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba1);
         assertTrue(a.obtenerHiperenlaces().isEmpty());
     }
     
+    /**
+     * El test comprueba que el método obtenerHiperenlacesImagenes() no recupera nada en un fichero sin imágenes.
+     */
     @Test
     public void TestObtenerImagenesFallo() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba1);
         assertTrue(a.obtenerHiperenlacesImagenes().isEmpty());
     }
     
+    /**
+     * El test comprueba que el método obtenerHiperenlaces() recupera el valor de varios URL.
+     */
     @Test
     public void TestObtenerVariosEnlaces() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba4);
         assertEquals(a.obtenerHiperenlaces().size(), 3);
     }
     
+    /**
+     * El test comprueba que el método obtenerHiperenlacesImagenes() recupera el valor de lvarias imágenes.
+     */
     @Test
     public void TestObtenerVariasImagenes() throws IOException{
         JFlexScraper a = new JFlexScraper(ficheroPrueba4);
